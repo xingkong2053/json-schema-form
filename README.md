@@ -59,7 +59,7 @@ module.exports = {
    import { defineComponent, reactive } from "vue";
    
    export default defineComponent({
-     setup(){
+     setup(props, { slots, emit, attrs }){
    
        const state = reactive({
          name: 'world'
@@ -130,3 +130,4 @@ module.exports = {
    ```
 
    
+

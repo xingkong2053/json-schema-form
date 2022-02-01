@@ -3,6 +3,7 @@ import MonacoEditor from "./components/MonacoEditor";
 import { createUseStyles } from "vue-jss";
 import demos from "./demos";
 import { ElSelect, ElOption } from "element-plus";
+import SchemaForm from "../lib/SchemaForm";
 
 
 const useStyles = createUseStyles({
@@ -107,6 +108,15 @@ export default defineComponent({
       demo.uiSchemaCode = toJson(d.uiSchema)
     })
 
+    /**
+     * 当SchemaForm中的文本改变时，同步改变demo中的数据值
+     * @param v
+     */
+    const handleChange = (v: any) =>{
+      demo.data = v
+      demo.dataCode = toJson(v)
+    }
+
     const classesRef = useStyles()
 
     // closure 闭包 demo
@@ -169,7 +179,7 @@ export default defineComponent({
             </div>
             {/* /.code */}
             <div class={classes.form}>
-              form
+              <SchemaForm schema={demo.schema} onChange={handleChange} value={demo.data}/>
             </div>
           </div>
         </div>
