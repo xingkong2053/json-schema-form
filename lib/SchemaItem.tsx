@@ -29,6 +29,8 @@ export default defineComponent({
           Component = StringField;break;
         case SchemaTypes.NUMBER:
           Component = NumberField;break;
+        case SchemaTypes.OBJECT:
+          Component = ObjectField;break;
         default:
           console.warn(`${type} is not supported`);
       }
