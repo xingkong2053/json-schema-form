@@ -3,7 +3,7 @@
 export default {
   name: 'demo',
   schema: {
-    type: 'number',
+    type: 'object',
   },
   uiSchema: {},
   default: 1,
