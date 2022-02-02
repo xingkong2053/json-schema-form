@@ -59,5 +59,9 @@ export const FiledPropsDefine = {
   onChange:{
     type: Function as PropType<(v: any) => void>,
     required: true
+  },
+  rootSchema: {
+    type: Object as PropType<Schema>,
+    required: true
   }
 } as const /*声明为readonly类型*/

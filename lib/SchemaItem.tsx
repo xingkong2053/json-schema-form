@@ -1,14 +1,27 @@
-import { defineComponent } from "vue";
+import { computed, defineComponent } from "vue";
 import { FiledPropsDefine, SchemaTypes } from "./types";
 import StringField from "./fields/StringField.vue";
 import NumberField from "./fields/NumberField";
+import { retrieveSchema } from "./utils";
+import ObjectField from "./fields/ObjectField";
 
 export default defineComponent({
   name: 'SchemaItem',
   props: FiledPropsDefine,
   setup(props){
+
+    // retrievedSchemaRef
+    const rSRef = computed(()=>{
+      const { schema, rootSchema, value } = props
+      return retrieveSchema(schema, rootSchema, value)
+    })
+
     return ()=>{
-      const { schema } = props
+      const { schema, ...restProps } = props
+
+      // 遍历后的schema
+      const rS = rSRef.value
+
       const type = schema.type
       let Component : any
       switch (type){
@@ -19,7 +32,7 @@ export default defineComponent({
         default:
           console.warn(`${type} is not supported`);
       }
-      return <Component {...props}/>
+      return <Component {...restProps} schema = {rS}/>
     }
   }
 })
