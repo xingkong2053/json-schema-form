@@ -5,6 +5,9 @@ const circular = require('circular-dependency-plugin');
 module.exports = {
   chainWebpack(config){
     config.plugin('monaco').use(new MonacoWebpackPlugin())
-    config.plugin('circular').use(new circular())
+    // https://github.com/aackerman/circular-dependency-plugin
+    config.plugin('circular').use(new circular({
+      exclude: /node_modules/,
+    }))
   },
 }
