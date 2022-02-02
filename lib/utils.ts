@@ -1,3 +1,4 @@
+/* eslint-disable */
 import Ajv from 'ajv'
 
 import { Schema } from './types'

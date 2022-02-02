@@ -14,6 +14,7 @@ module.exports = {
     "ecmaVersion": 2020
   },
   rules: {
-    'no-empty': 'off'
+    'no-empty': 'off',
+    'semi':'off',
   }
 }
