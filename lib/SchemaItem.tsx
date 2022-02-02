@@ -4,6 +4,7 @@ import StringField from "./fields/StringField.vue";
 import NumberField from "./fields/NumberField";
 import { retrieveSchema } from "./utils";
 import ObjectField from "./fields/ObjectField";
+import ArrayField from "./fields/ArrayField";
 
 export default defineComponent({
   name: 'SchemaItem',
@@ -31,6 +32,8 @@ export default defineComponent({
           Component = NumberField;break;
         case SchemaTypes.OBJECT:
           Component = ObjectField;break;
+        case SchemaTypes.ARRAY:
+          Component = ArrayField;break;
         default:
           console.warn(`${type} is not supported`);
       }
