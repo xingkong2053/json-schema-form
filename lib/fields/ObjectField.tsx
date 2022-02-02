@@ -1,23 +1,14 @@
-import { defineComponent, inject } from "vue";
+import { defineComponent } from "vue";
 import { FiledPropsDefine } from "../types";
 import { isObject } from "../utils";
-import { SCHEMA_FORM_CONTEXT_KEY } from "../context";
+import { useVJSFContext } from "../context";
 
-
-
-const TypeHelperComponent = defineComponent({props: FiledPropsDefine})
-// SchemaItem类型
-type SchemaItemType = typeof TypeHelperComponent
 
 export default defineComponent({
   name: 'ObjectField',
   props: FiledPropsDefine,
   setup(props){
-    const context: { SchemaItem: SchemaItemType } | undefined = inject(SCHEMA_FORM_CONTEXT_KEY)
-    if (!context) {
-      // 没有context 可能的情况是在SchemaForm之外使用ObjectField
-      throw Error('ObjectField should be used in SchemaForm')
-    }
+    const context = useVJSFContext()
 
     const handleChange = (key: string, v: any)=>{
       const value: any = isObject(props.value) ? props.value : {}

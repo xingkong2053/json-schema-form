@@ -1,4 +1,4 @@
-import { PropType } from "vue";
+import { defineComponent, PropType } from "vue";
 
 export enum SchemaTypes {
   'NUMBER' = 'number',
@@ -64,4 +64,8 @@ export const FiledPropsDefine = {
     type: Object as PropType<Schema>,
     required: true
   }
-} as const /*声明为readonly类型*/
+} as const /*声明为readonly类型*/ // SchemaItem类型
+
+export const TypeHelperComponent = defineComponent({ props: FiledPropsDefine });
+
+export type SchemaItemType = typeof TypeHelperComponent
