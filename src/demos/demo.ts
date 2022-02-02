@@ -4,6 +4,28 @@ export default {
   name: 'demo',
   schema: {
     type: 'object',
+    properties: {
+      name: {
+        type: 'string',
+      },
+      age: {
+        type: 'number'
+      },
+      staticArr: {
+        type: 'array',
+        items: [
+          {
+            type: 'string'
+          },
+          {
+            type: 'number'
+          },
+          {
+            type: 'string'
+          },
+        ]
+      }
+    }
   },
   uiSchema: {},
   default: 1,
