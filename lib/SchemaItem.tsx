@@ -5,6 +5,7 @@ import NumberField from "./fields/NumberField";
 import { retrieveSchema } from "./utils";
 import ObjectField from "./fields/ObjectField";
 import ArrayField from "./fields/ArrayField";
+import { ElCard } from 'element-plus'
 
 export default defineComponent({
   name: 'SchemaItem',
@@ -37,7 +38,9 @@ export default defineComponent({
         default:
           console.warn(`${type} is not supported`);
       }
-      return <Component {...restProps} schema = {rS}/>
+      return <ElCard>
+        <Component {...restProps} schema = {rS}/>
+      </ElCard>
     }
   }
 })

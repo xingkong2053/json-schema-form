@@ -1,5 +1,5 @@
 import { defineComponent, PropType } from "vue";
-import { ElOption, ElSelect } from "element-plus";
+import { ElOption, ElSelect, ElCard } from "element-plus";
 import { Schema } from "../types";
 
 /**
@@ -30,7 +30,7 @@ export default defineComponent({
   setup(props){
     return ()=>{
       const {valueArr, schema, onChange} = props
-      return <>
+      return <ElCard>
         <ElSelect
           class={"m-2"}
           placeholder={"select"}
@@ -43,7 +43,7 @@ export default defineComponent({
             ((schema.items as Schema).enum as any[]).map((item,index)=><ElOption key={index} label={item} value={item}/>)
           }
         </ElSelect>
-      </>
+      </ElCard>
     }
   }
 })
