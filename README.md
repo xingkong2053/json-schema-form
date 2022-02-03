@@ -129,5 +129,88 @@ module.exports = {
    }
    ```
 
-   
+
+### 高阶函数/闭包使用案例
+
+```tsx
+// ArrayField.tsx
+setup(){
+    const hoverStatus  = reactive(props.value?new Array((props.value as any[]).length).fill(false):[])
+
+    // 管理hover
+    const useHover = (index: number,status: boolean) =>
+      ()=>hoverStatus[index] = status
+    
+    return ()=>{
+        return <>
+            	{
+              arrayValue.map((v: any, index: number)=><div
+                onMouseenter={useHover(index,true)}
+                onMouseleave={useHover(index,false)}
+              >
+                {
+                  hoverStatus[index] &&<ElButtonGroup class={'ml-4'}>
+                    <ElButton type={'primary'} plain onClick={useArrayOperator(index,'add')} size={"small"}>新增</ElButton>
+                    <ElButton type={'primary'} plain onClick={useArrayOperator(index,'delete')} size={"small"}>删除</ElButton>
+                    <ElButton type={'primary'} plain size={"small"}>上移</ElButton>
+                    <ElButton type={'primary'} plain size={"small"}>下移</ElButton>
+                  </ElButtonGroup>
+                }
+                <SchemaItem
+                  key={index}
+                  schema={schema.items as Schema}
+                  rootSchema={rootSchema}
+                  value = {v}
+                  onChange={(v: any)=>handleArrayItemChange(v,index)}
+                />
+              </div>)
+            }
+            </>
+	}
+}
+```
+
+```tsx
+// ArrayField.tsx
+setup(){
+    const useArrayOperator = (index: number, cmd: 'add'|'delete'|'up'|'down') => {
+      const { value } = props
+      const arr = Array.isArray(value) ? value : []
+      switch (cmd) {
+        case 'add':
+          return ()=>{
+            arr.splice(index+1,0,undefined)
+            props.onChange(arr)
+          }
+        case 'delete':
+          return ()=>{
+            arr.splice(index,1)
+            props.onChange(arr)
+          }
+        default:
+          throw Error("cmd should be provided")
+      }
+    }
+    
+    return ()=>{
+        return <>
+            	<ElButtonGroup class={'ml-4'}>
+                    <ElButton type={'primary'} plain onClick={useArrayOperator(index,'add')} size={"small"}>新增</ElButton>
+                    <ElButton type={'primary'} plain onClick={useArrayOperator(index,'delete')} size={"small"}>删除</ElButton>
+                    <ElButton type={'primary'} plain size={"small"}>上移</ElButton>
+                    <ElButton type={'primary'} plain size={"small"}>下移</ElButton>
+                  </ElButtonGroup>
+            </>
+	}
+}
+```
+
+### watch使用案例
+
+```js
+// ArrayField.tsx
+watch(valueArr,(arr)=>{
+    props.onChange([...valueArr])
+})
+```
 
