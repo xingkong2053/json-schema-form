@@ -30,6 +30,13 @@ export default {
         items: {
           type: 'string'
         }
+      },
+      enumArr:{
+        type: 'array',
+        items: {
+          type: 'string',
+          enum: ['北京','上海','杭州','广州']
+        }
       }
     }
   },
@@ -38,7 +45,8 @@ export default {
     name: 'xingkong',
     age: 22,
     staticArr: ['hello',666,'world'],
-    singleTypeArray:'HAPPY SPRING FESTIVAL'.split(' ')
+    singleTypeArray:'HAPPY SPRING FESTIVAL'.split(' '),
+    enumArr: ['北京']
   },
   async customValidate(data: any, errors: any) {
     return new Promise((resolve) => {
