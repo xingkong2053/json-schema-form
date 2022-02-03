@@ -1,7 +1,7 @@
 import { defineComponent, reactive, watch } from "vue";
 import { FiledPropsDefine, Schema } from "../types";
 import { useVJSFContext } from "../context";
-import { ElButtonGroup, ElButton } from "element-plus";
+import { ElButtonGroup, ElButton, ElSelect, ElOption } from "element-plus";
 
 
 export default defineComponent({
@@ -148,11 +148,23 @@ export default defineComponent({
            *   }
            * }
            */
-
+          return <>
+            <ElSelect
+              class={"m-2"}
+              placeholder={"select"}
+              size={"large"}
+              v-model={valueArr}
+              multiple
+              onChange={arr=>state.valueArr=arr}
+            >
+              {
+                ((schema.items as Schema).enum as any[]).map((item,index)=><ElOption key={index} label={item} value={item}/>)
+              }
+            </ElSelect>
+          </>
         }
 
       }
-      return null
     }
   }
 })
