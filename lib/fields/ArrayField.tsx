@@ -10,26 +10,37 @@ export default defineComponent({
   setup(props){
     const context = useVJSFContext();
 
-    const hoverStatus  = reactive(props.value?new Array((props.value as any[]).length).fill(false):[])
-    const valueArr = reactive(Array.isArray(props.value) ? [...props.value] : [])
+    const state = reactive({
+      hoverStatus: props.value?new Array((props.value as any[]).length).fill(false):[],
+      // 只有当valueArr 引用改变时才能触发更新
+      valueArr: Array.isArray(props.value) ? props.value : []
+    })
 
-    watch(valueArr,(arr)=>{
-      props.onChange([...arr])
+    watch(()=>state.valueArr,(arr)=>{
+      // 当内容不一样时才触发更新
+      JSON.stringify(arr) !== JSON.stringify(props.value) && props.onChange(arr)
+    })
+
+    watch(()=>props.value,newVal=>{
+      state.valueArr = Array.isArray(newVal) ? [...newVal] : []
     })
 
     // 管理hover
     const useHover = (index: number,status: boolean) =>
-      ()=>hoverStatus[index] = status
+      ()=>state.hoverStatus[index] = status
 
     const useArrayOperator = (index: number, cmd: 'add'|'delete'|'up'|'down') => {
+      const  { valueArr } = state
       switch (cmd) {
         case 'add':
           return ()=>{
             valueArr.splice(index+1,0,undefined)
+            state.valueArr = [...valueArr]
           }
         case 'delete':
           return ()=>{
             valueArr.splice(index,1)
+            state.valueArr = [...valueArr]
           }
         case 'up':
           return ()=>{
@@ -37,6 +48,7 @@ export default defineComponent({
             const temp = valueArr[index - 1]
             valueArr[index - 1] = valueArr[index]
             valueArr[index] = temp
+            state.valueArr = [...valueArr]
           }
         case 'down':
           return ()=>{
@@ -44,6 +56,7 @@ export default defineComponent({
             const temp = valueArr[index + 1]
             valueArr[index + 1] = valueArr[index]
             valueArr[index] = temp
+            state.valueArr = [...valueArr]
           }
         default:
           throw Error("cmd should be provided")
@@ -51,11 +64,13 @@ export default defineComponent({
     }
 
     const handleArrayItemChange = (v: any, index: number)=>{
-      valueArr[index] = v
+      state.valueArr[index] = v
+      state.valueArr = [...state.valueArr]
     }
 
     return ()=>{
       const { schema, rootSchema } = props
+      const { valueArr } = state
       const SchemaItem = context.SchemaItem;
 
       /**
@@ -104,14 +119,6 @@ export default defineComponent({
                 onMouseenter={useHover(index,true)}
                 onMouseleave={useHover(index,false)}
               >
-                {
-                  hoverStatus[index] &&<ElButtonGroup class={'ml-4'}>
-                    <ElButton type={'primary'} plain onClick={useArrayOperator(index,'add')} size={"small"}>新增</ElButton>
-                    <ElButton type={'primary'} plain onClick={useArrayOperator(index,'delete')} size={"small"}>删除</ElButton>
-                    <ElButton type={'primary'} plain onClick={useArrayOperator(index,'up')} size={"small"}>上移</ElButton>
-                    <ElButton type={'primary'} plain onClick={useArrayOperator(index,'down')} size={"small"}>下移</ElButton>
-                  </ElButtonGroup>
-                }
                 <SchemaItem
                   key={index}
                   schema={schema.items as Schema}
@@ -119,6 +126,14 @@ export default defineComponent({
                   value = {v}
                   onChange={(v: any)=>handleArrayItemChange(v,index)}
                 />
+                {
+                  state.hoverStatus[index] &&<ElButtonGroup class={'ml-4'}>
+                    <ElButton type={'primary'} plain onClick={useArrayOperator(index,'add')} size={"small"}>新增</ElButton>
+                    <ElButton type={'primary'} plain onClick={useArrayOperator(index,'delete')} size={"small"}>删除</ElButton>
+                    <ElButton type={'primary'} plain onClick={useArrayOperator(index,'up')} size={"small"}>上移</ElButton>
+                    <ElButton type={'primary'} plain onClick={useArrayOperator(index,'down')} size={"small"}>下移</ElButton>
+                  </ElButtonGroup>
+                }
               </div>)
             }
           </>
@@ -133,6 +148,7 @@ export default defineComponent({
            *   }
            * }
            */
+
         }
 
       }
