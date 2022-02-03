@@ -88,7 +88,7 @@ export default defineComponent({
 
     const demo: Demo = reactive({
       schema: null,
-      data: {},
+      data: null,
       uiSchema: {},
       schemaCode: '',
       dataCode: '',

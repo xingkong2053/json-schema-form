@@ -69,3 +69,11 @@ export const FiledPropsDefine = {
 export const TypeHelperComponent = defineComponent({ props: FiledPropsDefine });
 
 export type SchemaItemType = typeof TypeHelperComponent
+
+export const initialValue = new Map<string | undefined, any>([
+  [SchemaTypes.NUMBER, 0],
+  [SchemaTypes.STRING, ""],
+  [SchemaTypes.OBJECT, {}],
+  [SchemaTypes.ARRAY, []],
+  [undefined, undefined]
+]);

@@ -1,5 +1,5 @@
 import { defineComponent, PropType, provide } from "vue";
-import { Schema } from "./types";
+import { initialValue, Schema } from "./types";
 import SchemaItem from "./SchemaItem";
 import { SCHEMA_FORM_CONTEXT_KEY } from "./context";
 
@@ -19,7 +19,7 @@ export default defineComponent({
       required: true
     }
   },
-  setup(props, { slots }){
+  setup(props){
 
     // 将SchemaItem包装成context供后代节点(ObjectField调用)
     // 避免文件循环引用
@@ -29,7 +29,15 @@ export default defineComponent({
 
     return ()=>{
       const {onChange, value, schema} = props
-      return <SchemaItem value={value} schema={schema} rootSchema={schema} onChange={v=>onChange(v)}/>
+      let tempValue = value
+      //先检查value是否存在
+      if(value === undefined || value === null){
+        const initial = initialValue.get(schema.type)
+        onChange(initial)
+        tempValue = initial
+      }
+      console.log({value});
+      return <SchemaItem value={tempValue} schema={schema} rootSchema={schema} onChange={v=>onChange(v)}/>
     }
   }
 })
