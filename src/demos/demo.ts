@@ -24,11 +24,22 @@ export default {
             type: 'string'
           },
         ]
+      },
+      singleTypeArray:{
+        type: 'array',
+        items: {
+          type: 'string'
+        }
       }
     }
   },
   uiSchema: {},
-  default: 1,
+  default: {
+    name: 'xingkong',
+    age: 22,
+    staticArr: ['hello',666,'world'],
+    singleTypeArray:'HAPPY SPRING FESTIVAL'.split(' ')
+  },
   async customValidate(data: any, errors: any) {
     return new Promise((resolve) => {
       setTimeout(() => {
