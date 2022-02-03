@@ -37,17 +37,17 @@ export default {
           type: 'string',
           enum: ['北京','上海','杭州','广州']
         }
+      },
+      arr4:{
+        type: "array",
+        items:{
+          type: "string"
+        }
       }
     }
   },
   uiSchema: {},
-  default: {
-    name: 'xingkong',
-    age: 22,
-    staticArr: ['hello',666,'world'],
-    singleTypeArray:'HAPPY SPRING FESTIVAL'.split(' '),
-    enumArr: ['北京']
-  },
+  default: null,
   async customValidate(data: any, errors: any) {
     return new Promise((resolve) => {
       setTimeout(() => {
