@@ -94,8 +94,10 @@ export default defineComponent({
     }
 
     return ()=>{
-      const { valueArr, schema, rootSchema } = props
-      return valueArr.map((v: any, index: number)=><div
+      const { schema, rootSchema } = props
+      const { valueArr } = state
+      if((valueArr as any[]).length != 0){
+        return valueArr.map((v: any, index: number)=><div
           onMouseenter={useHover(index,true)}
           onMouseleave={useHover(index,false)}
         >
@@ -115,6 +117,9 @@ export default defineComponent({
             </ElButtonGroup>
           }
         </div>)
+      } else {
+        return <ElButton type={'primary'} plain onClick={useArrayOperator(0,'add')} size={"small"}>新增</ElButton>
+      }
     }
   }
 })
