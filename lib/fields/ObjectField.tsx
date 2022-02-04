@@ -32,7 +32,7 @@ export default defineComponent({
         {
           Object.keys(properties).map((k: string,index:number)=> {
             //先检查objectValue[key]是否存在
-            if(!objectValue[k]){
+            if(objectValue[k] === undefined){
               handleChange(k,initialValue.get(properties[k].type))
             }
             return <SchemaItem

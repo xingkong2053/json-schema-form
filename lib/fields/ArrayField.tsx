@@ -1,5 +1,5 @@
 import { defineComponent} from "vue";
-import { FiledPropsDefine, Schema } from "../types";
+import { FiledPropsDefine, initialValue, Schema } from "../types";
 import { useVJSFContext } from "../context";
 import ArraySelect from "../widget/ArraySelect";
 import SingleTypeArray from "../widget/SingleTypeArray";
@@ -12,7 +12,9 @@ export default defineComponent({
     const context = useVJSFContext();
 
     const handleArrayItemChange = (v: any, index: number)=>{
-      const arr = props.value as any[]
+      // 这里必须是props.value的深拷贝值，不能是引用
+      // 否则同级别的其他的数组也会跟着改变
+      const arr = JSON.parse(JSON.stringify(props.value as any[]))
       arr[index] = v
       props.onChange(arr)
     }
@@ -34,16 +36,18 @@ export default defineComponent({
        */
       const isMultiType = Array.isArray(schema.items)
       if (isMultiType) {
-
         return <>
           {
-            (schema.items as Schema[]).map((item,index)=>
-              <context.SchemaItem key={index}
-                          schema={item}
-                          rootSchema={rootSchema}
-                          value={(value as any[])[index]}
-                          onChange={(v: any)=>handleArrayItemChange(v,index)}
-              />)
+            (schema.items as Schema[]).map((item,index)=>{
+              const arr = value as any[]
+              //
+              arr[index] === undefined && handleArrayItemChange(initialValue.get(item.type),index)
+              return <context.SchemaItem key={index}
+                                         schema={item}
+                                         rootSchema={rootSchema}
+                                         value={arr[index]}
+                                         onChange={(v: any)=>handleArrayItemChange(v,index)} />
+            })
           }
         </>
 
