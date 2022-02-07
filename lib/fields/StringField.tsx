@@ -1,13 +1,13 @@
 import { defineComponent} from "vue";
 import { useGetWidgetRef } from "../ThemeProvider";
-import { CommonWidgetNames, CommonWidgetPropsDefine } from "../types";
+import { CommonWidgetNames, FiledPropsDefine } from "../types";
 
 /**
  * 渲染string类型的schema
  */
 export default defineComponent({
   name: 'StringField',
-  props: CommonWidgetPropsDefine,
+  props: FiledPropsDefine,
   setup(props){
     const StringWidgetRef = useGetWidgetRef(CommonWidgetNames.StringWidget);
     const StringWidget = StringWidgetRef.value
