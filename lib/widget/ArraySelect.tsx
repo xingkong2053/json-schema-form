@@ -1,6 +1,6 @@
 import { defineComponent, PropType } from "vue";
-import { ElOption, ElSelect, ElCard } from "element-plus";
-import { Schema } from "../types";
+import { Schema, SelectWidgetNames } from "../types";
+import { useGetWidgetRef } from "../ThemeProvider";
 
 /**
  * 单一类型数组且取值确定, eg:
@@ -24,26 +24,17 @@ export default defineComponent({
       required: true
     },
     onChange:{
-      type: Function as PropType<(arr: any[])=>void>
+      type: Function as PropType<(arr: any[])=>void>,
+      required: true
     }
   },
   setup(props){
     return ()=>{
       const {valueArr, schema, onChange} = props
-      return <ElCard>
-        <ElSelect
-          class={"m-2"}
-          placeholder={"select"}
-          size={"large"}
-          v-model={valueArr}
-          multiple
-          onChange={onChange}
-        >
-          {
-            ((schema.items as Schema).enum as any[]).map((item,index)=><ElOption key={index} label={item} value={item}/>)
-          }
-        </ElSelect>
-      </ElCard>
+      const SelectWidgetRef = useGetWidgetRef(SelectWidgetNames.SelectWidget);
+      const SelectWidget = SelectWidgetRef.value
+      const options = ((schema.items as Schema).enum as string[]).map(item=>({key: item,value: item}))
+      return <SelectWidget options={options} value={valueArr} onChange={v=>onChange(v as any[])}/>
     }
   }
 })

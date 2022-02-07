@@ -1,4 +1,4 @@
-import { defineComponent, PropType } from "vue";
+import { DefineComponent, defineComponent, PropType } from "vue";
 
 export enum SchemaTypes {
   'NUMBER' = 'number',
@@ -77,3 +77,49 @@ export const initialValue = new Map<string | undefined, any>([
   [SchemaTypes.ARRAY, []],
   [undefined, undefined]
 ]);
+
+
+export const CommonWidgetPropsDefine = {
+  value: {
+    required: true
+  },
+  onChange: {
+    type: Function as PropType<(v: any) => void>,
+    required: true,
+  }
+} as const
+
+export const SelectWidgetPropsDefine = {
+  ...CommonWidgetPropsDefine,
+  options: {
+    type: Array as PropType<{key:string,value:any}[]>,
+    required: true
+  }
+} as const
+
+export type CommonWidgetComponentType =
+  DefineComponent<
+    typeof CommonWidgetPropsDefine,
+    Record<string, unknown>,
+    Record<string, unknown>>
+
+export type SelectWidgetComponentType = DefineComponent<typeof SelectWidgetPropsDefine, Record<string, unknown>,
+  Record<string, unknown>>
+
+export enum SelectWidgetNames {
+  SelectWidget = 'SelectWidget '
+}
+
+export enum CommonWidgetNames {
+  StringWidget = 'StringWidget',
+  NumberWidget = 'NumberWidget'
+}
+
+export interface Theme {
+  widgets: {
+    [SelectWidgetNames.SelectWidget]: SelectWidgetComponentType,
+    [CommonWidgetNames.StringWidget]: CommonWidgetComponentType,
+    [CommonWidgetNames.NumberWidget]: CommonWidgetComponentType
+  }
+}
+

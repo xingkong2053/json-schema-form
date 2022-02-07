@@ -4,6 +4,8 @@ import { createUseStyles } from "vue-jss";
 import demos from "./demos";
 import { ElSelect, ElOption } from "element-plus";
 import SchemaForm from "../lib/SchemaForm";
+import ThemeProvider from "../lib/ThemeProvider";
+import theme from "../theme/default";
 
 
 const useStyles = createUseStyles({
@@ -179,7 +181,9 @@ export default defineComponent({
             </div>
             {/* /.code */}
             <div class={classes.form}>
-              <SchemaForm schema={demo.schema} onChange={handleChange} value={demo.data}/>
+              <ThemeProvider theme={theme}>
+                <SchemaForm schema={demo.schema} onChange={handleChange} value={demo.data}/>
+              </ThemeProvider>
             </div>
           </div>
         </div>

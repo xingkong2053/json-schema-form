@@ -1,6 +1,7 @@
 import { defineComponent } from "vue";
-import { ElInput } from "element-plus";
-import { FiledPropsDefine } from "../types";
+import { CommonWidgetNames, FiledPropsDefine } from "../types";
+import { useGetWidgetRef } from "../ThemeProvider";
+
 /**
  * 渲染number类型的schema
  */
@@ -8,16 +9,12 @@ export default defineComponent({
   name: 'NumberField',
   props: FiledPropsDefine,
   setup(props){
-
-    const handleChange = (value: any) =>{
-      props.onChange(isNaN(value)?0:+value)
-    }
-
     return ()=>{
-      const { value } = props
-      return <>
-        <ElInput type={'number'} modelValue={value as number} onInput={handleChange}/>
-      </>
+      const { value, onChange } = props
+      // 从主题中获取NumberWidget
+      const NumberWidgetRef = useGetWidgetRef(CommonWidgetNames.NumberWidget);
+      const NumberWidget = NumberWidgetRef.value
+      return <NumberWidget value={value} onChange={onChange}/>
     }
   }
 })
