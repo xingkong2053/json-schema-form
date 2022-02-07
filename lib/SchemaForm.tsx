@@ -32,7 +32,7 @@ export default defineComponent({
       let tempValue = value
       //先检查value是否存在
       if(value === undefined || value === null){
-        const initial = initialValue.get(schema.type)
+        const initial = initialValue(schema.type)
         onChange(initial)
         tempValue = initial
       }

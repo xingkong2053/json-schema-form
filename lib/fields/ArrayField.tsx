@@ -41,7 +41,7 @@ export default defineComponent({
             (schema.items as Schema[]).map((item,index)=>{
               const arr = value as any[]
               //
-              arr[index] === undefined && handleArrayItemChange(initialValue.get(item.type),index)
+              arr[index] === undefined && handleArrayItemChange(initialValue(item.type),index)
               return <context.SchemaItem key={index}
                                          schema={item}
                                          rootSchema={rootSchema}

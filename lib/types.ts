@@ -70,14 +70,15 @@ export const TypeHelperComponent = defineComponent({ props: FiledPropsDefine });
 
 export type SchemaItemType = typeof TypeHelperComponent
 
-export const initialValue = new Map<string | undefined, any>([
-  [SchemaTypes.NUMBER, 0],
-  [SchemaTypes.STRING, ""],
-  [SchemaTypes.OBJECT, {}],
-  [SchemaTypes.ARRAY, []],
-  [undefined, undefined]
-]);
-
+export const initialValue = (type :string | undefined) => {
+  switch (type){
+    case SchemaTypes.NUMBER: return 0;
+    case SchemaTypes.STRING: return "";
+    case SchemaTypes.OBJECT: return {};
+    case SchemaTypes.ARRAY: return [];
+    default: return;
+  }
+}
 
 export const CommonWidgetPropsDefine = {
   value: {
