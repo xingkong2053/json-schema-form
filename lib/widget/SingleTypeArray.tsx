@@ -1,5 +1,5 @@
-import { defineComponent, PropType, reactive, watch } from "vue";
-import { Schema } from "../types";
+import { defineComponent, reactive, watch } from "vue";
+import { FiledPropsDefine, Schema } from "../types";
 import { ElButton, ElButtonGroup } from "element-plus";
 import { useVJSFContext } from "../context";
 
@@ -14,38 +14,21 @@ import { useVJSFContext } from "../context";
  */
 export default defineComponent({
   name: 'SingleTypeArray',
-  props: {
-    schema: {
-      type: Object as PropType<Schema>,
-      required: true
-    },
-    rootSchema: {
-      type: Object as PropType<Schema>,
-      required: true
-    },
-    valueArr: {
-      type: Array as PropType<any[]>,
-      required: true
-    },
-    onChange:{
-      type: Function as PropType<(arr: any[])=>void>,
-      required: true
-    }
-  },
+  props: FiledPropsDefine,
   setup(props){
     const context = useVJSFContext()
     const state = reactive({
-      hoverStatus: new Array((props.valueArr as any[]).length).fill(false),
+      hoverStatus: new Array((props.value as any[]).length).fill(false),
       // 只有当valueArr 引用改变时才能触发更新
-      valueArr: Array.isArray(props.valueArr) ? props.valueArr : []
+      valueArr: Array.isArray(props.value) ? props.value : []
     })
 
     watch(()=>state.valueArr,(arr)=>{
       // 当state中的数组和 props中的数组不一致时，触发事件
-      JSON.stringify(arr) !== JSON.stringify(props.valueArr) && props.onChange(arr)
+      JSON.stringify(arr) !== JSON.stringify(props.value) && props.onChange(arr)
     })
 
-    watch(()=>props.valueArr,newVal=>{
+    watch(()=>props.value,newVal=>{
       // 当props中的数组变化时，同步变化state中的数组
       state.valueArr = Array.isArray(newVal) ? [...newVal] : []
     })
@@ -105,6 +88,7 @@ export default defineComponent({
             key={index}
             schema={schema.items as Schema}
             rootSchema={rootSchema}
+            errorSchema={props.errorSchema || {}}
             value = {v}
             onChange={(v: any)=>handleArrayItemChange(v,index)}
           />

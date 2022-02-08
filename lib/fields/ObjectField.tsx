@@ -23,7 +23,7 @@ export default defineComponent({
 
     return ()=>{
       // 拿到解析后的schema
-      const { schema, rootSchema, value/*value应该是一个对象*/ } = props
+      const { schema, rootSchema, value/*value应该是一个对象*/ , errorSchema} = props
       const properties = schema.properties || {};
       // 从环境中拿到SchemaItem组件
       const { SchemaItem } = context
@@ -39,6 +39,7 @@ export default defineComponent({
               key={index}
               schema={properties[k]}
               rootSchema={rootSchema}
+              errorSchema={errorSchema[k] || {}}
               value={objectValue[k]}
               onChange={(v: any)=> handleChange(k,v)}/>
           })

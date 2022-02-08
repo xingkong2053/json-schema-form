@@ -3,7 +3,7 @@ import { ElInput } from "element-plus";
 import { CommonWidgetPropsDefine } from "../../lib/types";
 
 export default defineComponent({
-  name: 'ArraySelect',
+  name: 'NumberWidgetDefault',
   props: CommonWidgetPropsDefine,
   setup(props){
     const handleChange = (value: any) =>{

@@ -20,7 +20,7 @@ export default defineComponent({
     }
 
     return ()=>{
-      const { schema, rootSchema, value, onChange } = props
+      const { schema, rootSchema, value, onChange, errorSchema } = props
       /**
        * 处理多类型数组, eg:
        * {
@@ -45,6 +45,7 @@ export default defineComponent({
               return <context.SchemaItem key={index}
                                          schema={item}
                                          rootSchema={rootSchema}
+                                         errorSchema={errorSchema[index] || {}}
                                          value={arr[index]}
                                          onChange={(v: any)=>handleArrayItemChange(v,index)} />
             })
@@ -55,9 +56,9 @@ export default defineComponent({
 
         const isSelect = !!(schema.items as Schema)?.enum
         if (!isSelect) {
-          return <SingleTypeArray schema={schema} rootSchema={rootSchema} valueArr={value as any[]} onChange={onChange}/>
+          return <SingleTypeArray schema={schema} rootSchema={rootSchema} errorSchema={errorSchema} value={value as any[]} onChange={onChange}/>
         } else {
-          return <ArraySelect valueArr={value as any[]} schema={schema} onChange={onChange}/>
+          return <ArraySelect valueArr={value as any[]} schema={schema} onChange={onChange} errors={errorSchema.__errors}/>
         }
 
       }

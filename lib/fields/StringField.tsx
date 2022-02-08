@@ -13,7 +13,7 @@ export default defineComponent({
     const StringWidget = StringWidgetRef.value
     return ()=>{
       const { value, onChange } = props
-      return <StringWidget value={value} onChange={onChange}/>
+      return <StringWidget value={value} onChange={onChange} errors={props.errorSchema.__errors}/>
     }
   }
 })

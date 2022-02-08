@@ -13,7 +13,7 @@ import { SelectWidgetPropsDefine } from "../../lib/types";
  * }
  */
 export default defineComponent({
-  name: 'ArraySelect',
+  name: 'SelectWidgetDefault',
   props: SelectWidgetPropsDefine,
   setup(props){
     return ()=>{
