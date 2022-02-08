@@ -47,7 +47,14 @@ export default {
     }
   },
   uiSchema: {},
-  default: null,
+  default: {
+    name: 'xingkong',
+    age: 18,
+    staticArr: [],
+    singleTypeArray: [],
+    enumArr: [],
+    arr4: [],
+  },
   async customValidate(data: any, errors: any) {
     return new Promise((resolve) => {
       setTimeout(() => {
