@@ -2,6 +2,7 @@ import { defineComponent } from "vue";
 import { FiledPropsDefine, initialValue } from "../types";
 import { isObject } from "../utils";
 import { useVJSFContext } from "../context";
+import { ElForm } from "element-plus";
 
 
 export default defineComponent({
@@ -28,7 +29,7 @@ export default defineComponent({
       // 从环境中拿到SchemaItem组件
       const { SchemaItem } = context
       const objectValue : any = isObject(value)?value:{}
-      return <>
+      return <ElForm labelPosition={"top"} labelWidth={"100px"}>
         {
           Object.keys(properties).map((k: string,index:number)=> {
             //先检查objectValue[key]是否存在
@@ -44,7 +45,7 @@ export default defineComponent({
               onChange={(v: any)=> handleChange(k,v)}/>
           })
         }
-      </>
+      </ElForm>
     }
   } // setup
 })

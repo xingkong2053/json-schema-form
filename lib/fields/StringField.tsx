@@ -12,8 +12,8 @@ export default defineComponent({
     const StringWidgetRef = useGetWidgetRef(CommonWidgetNames.StringWidget);
     const StringWidget = StringWidgetRef.value
     return ()=>{
-      const { value, onChange } = props
-      return <StringWidget value={value} onChange={onChange} errors={props.errorSchema.__errors}/>
+      const { errorSchema, ...restProps } = props
+      return <StringWidget errors={errorSchema.__errors} {...restProps}/>
     }
   }
 })

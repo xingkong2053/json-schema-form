@@ -10,11 +10,11 @@ export default defineComponent({
   props: FiledPropsDefine,
   setup(props){
     return ()=>{
-      const { value, onChange, errorSchema } = props
+      const { errorSchema, ...restProps} = props
       // 从主题中获取NumberWidget
       const NumberWidgetRef = useGetWidgetRef(CommonWidgetNames.NumberWidget);
       const NumberWidget = NumberWidgetRef.value
-      return <NumberWidget value={value} onChange={onChange} errors={errorSchema.__errors}/>
+      return <NumberWidget errors={errorSchema.__errors} {...restProps}/>
     }
   }
 })

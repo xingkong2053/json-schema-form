@@ -3,6 +3,7 @@ import { FiledPropsDefine, initialValue, Schema } from "../types";
 import { useVJSFContext } from "../context";
 import ArraySelect from "../widget/ArraySelect";
 import SingleTypeArray from "../widget/SingleTypeArray";
+import { ElFormItem } from "element-plus";
 
 
 export default defineComponent({
@@ -36,27 +37,30 @@ export default defineComponent({
        */
       const isMultiType = Array.isArray(schema.items)
       if (isMultiType) {
-        return <>
+        const SchemaItem = context.SchemaItem
+        return <ElFormItem label={schema.title}>
           {
             (schema.items as Schema[]).map((item,index)=>{
               const arr = value as any[]
               //
               arr[index] === undefined && handleArrayItemChange(initialValue(item.type),index)
-              return <context.SchemaItem key={index}
-                                         schema={item}
-                                         rootSchema={rootSchema}
-                                         errorSchema={errorSchema[index] || {}}
-                                         value={arr[index]}
-                                         onChange={(v: any)=>handleArrayItemChange(v,index)} />
+              return <SchemaItem key={index}
+                                 schema={item}
+                                 rootSchema={rootSchema}
+                                 errorSchema={errorSchema[index] || {}}
+                                 value={arr[index]}
+                                 onChange={(v: any)=>handleArrayItemChange(v,index)} />
             })
           }
-        </>
+        </ElFormItem>
 
       } else{
 
         const isSelect = !!(schema.items as Schema)?.enum
         if (!isSelect) {
-          return <SingleTypeArray schema={schema} rootSchema={rootSchema} errorSchema={errorSchema} value={value as any[]} onChange={onChange}/>
+          return <ElFormItem label={schema.title}>
+            <SingleTypeArray schema={schema} rootSchema={rootSchema} errorSchema={errorSchema} value={value as any[]} onChange={onChange}/>
+          </ElFormItem>
         } else {
           return <ArraySelect valueArr={value as any[]} schema={schema} onChange={onChange} errors={errorSchema.__errors}/>
         }

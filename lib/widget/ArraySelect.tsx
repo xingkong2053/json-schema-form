@@ -37,7 +37,7 @@ export default defineComponent({
       const SelectWidgetRef = useGetWidgetRef(SelectWidgetNames.SelectWidget);
       const SelectWidget = SelectWidgetRef.value
       const options = ((schema.items as Schema).enum as string[]).map(item=>({key: item,value: item}))
-      return <SelectWidget options={options} value={valueArr} onChange={v=>onChange(v as any[])} errors={errors}/>
+      return <SelectWidget options={options} value={valueArr} onChange={v=>onChange(v as any[])} errors={errors} schema={schema}/>
     }
   }
 })
