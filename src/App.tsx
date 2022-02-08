@@ -2,7 +2,7 @@ import { defineComponent, reactive, ref, Ref, watchEffect } from "vue";
 import MonacoEditor from "./components/MonacoEditor";
 import { createUseStyles } from "vue-jss";
 import demos from "./demos";
-import { ElSelect, ElOption } from "element-plus";
+import { ElSelect, ElOption, ElButton } from "element-plus";
 import SchemaForm from "../lib/SchemaForm";
 import ThemeProvider from "../lib/ThemeProvider";
 import theme from "../theme/default";
@@ -161,6 +161,7 @@ export default defineComponent({
                 demos.map(({name},index)=> <ElOption value={index} key={index} label={name}/>)
               }
             </ElSelect>
+            <ElButton onClick={doValidate}>校验</ElButton>
           </div>
           {/* /.menu */}
           <div class={classes.content}>
@@ -195,7 +196,6 @@ export default defineComponent({
             </div>
           </div>
         </div>
-        <button onClick={doValidate}>校验</button>
       </div>
     }
   }
